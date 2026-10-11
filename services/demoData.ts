@@ -1,0 +1,246 @@
+import { FeedbackRecord } from '../types/feedback';
+
+/**
+ * High-fidelity synthetic demo dataset with realistic enterprise feedback.
+ * Includes natural duplicates to demonstrate recurring complaint tracking.
+ */
+export const INITIAL_DEMO_RECORDS: FeedbackRecord[] = [
+  // Operational Issues (12 entries, some repeated)
+  {
+    id: 'demo-op-1',
+    text: 'Payment processing timed out during checkout but my credit card was still charged.',
+    category: 'Operational Issues',
+    source: 'demo',
+    createdAt: '2026-10-09T08:14:00Z',
+  },
+  {
+    id: 'demo-op-2',
+    text: 'Payment processing timed out during checkout but my credit card was still charged.',
+    category: 'Operational Issues',
+    source: 'demo',
+    createdAt: '2026-10-09T09:32:00Z',
+  },
+  {
+    id: 'demo-op-3',
+    text: 'Payment processing timed out during checkout but my credit card was still charged.',
+    category: 'Operational Issues',
+    source: 'demo',
+    createdAt: '2026-10-09T14:20:00Z',
+  },
+  {
+    id: 'demo-op-4',
+    text: 'Export to CSV fails silently whenever the filtered list exceeds 1,000 items.',
+    category: 'Operational Issues',
+    source: 'demo',
+    createdAt: '2026-10-08T11:05:00Z',
+  },
+  {
+    id: 'demo-op-5',
+    text: 'Export to CSV fails silently whenever the filtered list exceeds 1,000 items.',
+    category: 'Operational Issues',
+    source: 'demo',
+    createdAt: '2026-10-08T16:44:00Z',
+  },
+  {
+    id: 'demo-op-6',
+    text: 'Webhook notifications are delayed by up to 45 minutes during peak evening traffic.',
+    category: 'Operational Issues',
+    source: 'demo',
+    createdAt: '2026-10-07T19:30:00Z',
+  },
+  {
+    id: 'demo-op-7',
+    text: 'Webhook notifications are delayed by up to 45 minutes during peak evening traffic.',
+    category: 'Operational Issues',
+    source: 'demo',
+    createdAt: '2026-10-07T21:12:00Z',
+  },
+  {
+    id: 'demo-op-8',
+    text: 'System returns error 502 Bad Gateway intermittently when accessing the billing settings.',
+    category: 'Operational Issues',
+    source: 'demo',
+    createdAt: '2026-10-06T15:00:00Z',
+  },
+  {
+    id: 'demo-op-9',
+    text: 'Invoice PDF download generates a corrupted 0KB file on Firefox.',
+    category: 'Operational Issues',
+    source: 'demo',
+    createdAt: '2026-10-06T10:15:00Z',
+  },
+  {
+    id: 'demo-op-10',
+    text: 'Session expires every 10 minutes even while actively typing comments in the form.',
+    category: 'Operational Issues',
+    source: 'demo',
+    createdAt: '2026-10-05T13:40:00Z',
+  },
+
+  // Fraud and Scam (10 entries, some repeated)
+  {
+    id: 'demo-fr-1',
+    text: 'Received a phishing email claiming our account was suspended and requesting login credentials.',
+    category: 'Fraud and Scam',
+    source: 'demo',
+    createdAt: '2026-10-09T07:22:00Z',
+  },
+  {
+    id: 'demo-fr-2',
+    text: 'Received a phishing email claiming our account was suspended and requesting login credentials.',
+    category: 'Fraud and Scam',
+    source: 'demo',
+    createdAt: '2026-10-09T10:45:00Z',
+  },
+  {
+    id: 'demo-fr-3',
+    text: 'Received a phishing email claiming our account was suspended and requesting login credentials.',
+    category: 'Fraud and Scam',
+    source: 'demo',
+    createdAt: '2026-10-08T18:10:00Z',
+  },
+  {
+    id: 'demo-fr-4',
+    text: 'Unrecognized IP address attempted repeated brute force logins to our admin account.',
+    category: 'Fraud and Scam',
+    source: 'demo',
+    createdAt: '2026-10-08T03:15:00Z',
+  },
+  {
+    id: 'demo-fr-5',
+    text: 'Unrecognized IP address attempted repeated brute force logins to our admin account.',
+    category: 'Fraud and Scam',
+    source: 'demo',
+    createdAt: '2026-10-07T04:20:00Z',
+  },
+  {
+    id: 'demo-fr-6',
+    text: 'Suspicious fake domain imitating your support portal is appearing in search ads.',
+    category: 'Fraud and Scam',
+    source: 'demo',
+    createdAt: '2026-10-07T12:00:00Z',
+  },
+  {
+    id: 'demo-fr-7',
+    text: 'Unauthorized recurring subscription charge was debited without 2FA confirmation.',
+    category: 'Fraud and Scam',
+    source: 'demo',
+    createdAt: '2026-10-06T16:30:00Z',
+  },
+  {
+    id: 'demo-fr-8',
+    text: 'Someone registered a user with our corporate domain before our organization claimed it.',
+    category: 'Fraud and Scam',
+    source: 'demo',
+    createdAt: '2026-10-05T09:10:00Z',
+  },
+
+  // Product Feedback (11 entries, some repeated)
+  {
+    id: 'demo-pf-1',
+    text: 'Need bulk tag editing and multi-row selection in the feedback explorer table.',
+    category: 'Product Feedback',
+    source: 'demo',
+    createdAt: '2026-10-09T11:20:00Z',
+  },
+  {
+    id: 'demo-pf-2',
+    text: 'Need bulk tag editing and multi-row selection in the feedback explorer table.',
+    category: 'Product Feedback',
+    source: 'demo',
+    createdAt: '2026-10-08T14:15:00Z',
+  },
+  {
+    id: 'demo-pf-3',
+    text: 'Dark mode contrast is too low in code blocks and data tables.',
+    category: 'Product Feedback',
+    source: 'demo',
+    createdAt: '2026-10-09T13:00:00Z',
+  },
+  {
+    id: 'demo-pf-4',
+    text: 'Please allow custom date range filters rather than only fixed 7-day or 30-day presets.',
+    category: 'Product Feedback',
+    source: 'demo',
+    createdAt: '2026-10-07T17:40:00Z',
+  },
+  {
+    id: 'demo-pf-5',
+    text: 'Please allow custom date range filters rather than only fixed 7-day or 30-day presets.',
+    category: 'Product Feedback',
+    source: 'demo',
+    createdAt: '2026-10-06T11:55:00Z',
+  },
+  {
+    id: 'demo-pf-6',
+    text: 'Keyboard navigation with arrow keys and Enter inside table rows would speed up triage.',
+    category: 'Product Feedback',
+    source: 'demo',
+    createdAt: '2026-10-06T08:45:00Z',
+  },
+  {
+    id: 'demo-pf-7',
+    text: 'Add automated Slack integration alerts for urgent category complaints.',
+    category: 'Product Feedback',
+    source: 'demo',
+    createdAt: '2026-10-05T15:20:00Z',
+  },
+  {
+    id: 'demo-pf-8',
+    text: 'The search filter should highlight matching search keywords inside the review text.',
+    category: 'Product Feedback',
+    source: 'demo',
+    createdAt: '2026-10-04T12:10:00Z',
+  },
+
+  // Customer Service (9 entries, some repeated)
+  {
+    id: 'demo-cs-1',
+    text: 'Support ticket #8491 was marked resolved without any agent response or resolution.',
+    category: 'Customer Service',
+    source: 'demo',
+    createdAt: '2026-10-09T16:50:00Z',
+  },
+  {
+    id: 'demo-cs-2',
+    text: 'Support ticket #8491 was marked resolved without any agent response or resolution.',
+    category: 'Customer Service',
+    source: 'demo',
+    createdAt: '2026-10-08T10:30:00Z',
+  },
+  {
+    id: 'demo-cs-3',
+    text: 'Waited over 40 minutes on live chat before being disconnected by the system.',
+    category: 'Customer Service',
+    source: 'demo',
+    createdAt: '2026-10-08T15:10:00Z',
+  },
+  {
+    id: 'demo-cs-4',
+    text: 'Waited over 40 minutes on live chat before being disconnected by the system.',
+    category: 'Customer Service',
+    source: 'demo',
+    createdAt: '2026-10-07T09:40:00Z',
+  },
+  {
+    id: 'demo-cs-5',
+    text: 'Agent transferred my enterprise onboarding request across three different departments.',
+    category: 'Customer Service',
+    source: 'demo',
+    createdAt: '2026-10-06T14:15:00Z',
+  },
+  {
+    id: 'demo-cs-6',
+    text: 'Knowledge base documentation for webhook verification has outdated signatures.',
+    category: 'Customer Service',
+    source: 'demo',
+    createdAt: '2026-10-05T17:25:00Z',
+  },
+  {
+    id: 'demo-cs-7',
+    text: 'Email reply took 5 business days for a critical payment gateway failure.',
+    category: 'Customer Service',
+    source: 'demo',
+    createdAt: '2026-10-04T10:00:00Z',
+  },
+];

@@ -1,0 +1,6 @@
+{
+  "name": "InsightFlow",
+  "description": "Turn Customer Feedback Into Clear Decisions. Understand customer sentiment, uncover recurring problems, and discover what deserves attention next.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
