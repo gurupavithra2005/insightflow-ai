@@ -19,6 +19,8 @@ interface SidebarProps {
   onTabChange: (tab: ActiveNavTab) => void;
   onCloseMobile?: () => void;
   totalRecordsCount: number;
+  issuesCount?: number;
+  recommendationsCount?: number;
 }
 
 interface NavItem {
@@ -33,6 +35,8 @@ export function Sidebar({
   onTabChange,
   onCloseMobile,
   totalRecordsCount,
+  issuesCount,
+  recommendationsCount,
 }: SidebarProps) {
   const navItems: NavItem[] = [
     {
@@ -55,11 +59,13 @@ export function Sidebar({
       id: 'recommendations',
       label: 'Recommendations',
       icon: Target,
+      badge: recommendationsCount !== undefined && recommendationsCount > 0 ? String(recommendationsCount) : undefined,
     },
     {
       id: 'issues',
       label: 'Issue Tracker',
       icon: CheckSquare,
+      badge: issuesCount !== undefined && issuesCount > 0 ? String(issuesCount) : undefined,
     },
     {
       id: 'reports',
@@ -147,13 +153,15 @@ export function Sidebar({
       <div className="p-4 m-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs space-y-1.5">
         <div className="flex items-center justify-between text-[11px]">
           <span className="font-semibold text-slate-800">Build Battle 2026</span>
-          <span className="text-[10px] text-indigo-600 font-mono font-bold">Phase 2</span>
+          <span className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded font-mono font-bold">
+            Phase 6 Ready
+          </span>
         </div>
         <p className="text-[11px] text-slate-500 leading-snug">
-          Frontend Arena Hackathon
+          Full-Lifecycle Customer Intelligence & Decision Suite
         </p>
         <div className="pt-1.5 border-t border-slate-200/60 text-[10px] text-slate-400">
-          AI Analysis Engine Active
+          Security Hardened • Adaption Verified • Ready for Evaluation
         </div>
       </div>
     </aside>

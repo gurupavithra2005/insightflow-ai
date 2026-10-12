@@ -38,6 +38,7 @@ export function ImportCsvModal({
   const [reviewColOverride, setReviewColOverride] = useState<string>('');
   const [categoryColOverride, setCategoryColOverride] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -50,11 +51,18 @@ export function ImportCsvModal({
     setParseResult(null);
     setReviewColOverride('');
     setCategoryColOverride('');
+    setUploadError(null);
   };
 
   const processFile = (file: File) => {
-    if (!file.name.endsWith('.csv') && file.type !== 'text/csv') {
-      alert('Please upload a standard CSV file (.csv)');
+    setUploadError(null);
+    if (!file.name.toLowerCase().endsWith('.csv') && file.type !== 'text/csv') {
+      setUploadError('Invalid file type: Please upload a standard CSV file (.csv).');
+      return;
+    }
+
+    if (file.size === 0) {
+      setUploadError('Empty file detected: The uploaded CSV file has a size of 0 bytes.');
       return;
     }
 
@@ -65,6 +73,11 @@ export function ImportCsvModal({
     const reader = new FileReader();
     reader.onload = e => {
       const text = e.target?.result as string;
+      if (!text || text.trim().length === 0) {
+        setIsProcessing(false);
+        setUploadError('Empty CSV content: The file contains no records.');
+        return;
+      }
       setCsvRawText(text);
       const res = parseAndValidateCsv(text);
       setParseResult(res);
@@ -74,7 +87,7 @@ export function ImportCsvModal({
     };
     reader.onerror = () => {
       setIsProcessing(false);
-      alert('Failed to read CSV file. Please ensure it is valid UTF-8 text.');
+      setUploadError('Failed to read CSV file. Please ensure it is valid UTF-8 text.');
     };
     reader.readAsText(file, 'UTF-8');
   };
@@ -216,6 +229,16 @@ export function ImportCsvModal({
               </button>
             </div>
           </div>
+
+          {uploadError && (
+            <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-2.5 text-xs text-rose-900">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <div className="font-semibold text-rose-950">Upload Validation Error</div>
+                <div className="text-[11px] text-rose-800 mt-0.5">{uploadError}</div>
+              </div>
+            </div>
+          )}
 
           {!parseResult ? (
             /* Upload Drop Area */

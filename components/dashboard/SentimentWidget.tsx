@@ -7,6 +7,7 @@ import { AggregateInsights, SentimentType, VALID_SENTIMENTS } from '../../types/
 interface SentimentWidgetProps {
   insights: AggregateInsights;
   onNavigateInsights: () => void;
+  onOpenAnalysisModal?: () => void;
   onFilterSentiment?: (sentiment: SentimentType) => void;
 }
 
@@ -20,6 +21,7 @@ const SENTIMENT_STYLES: Record<SentimentType, { label: string; text: string; bg:
 export function SentimentWidget({
   insights,
   onNavigateInsights,
+  onOpenAnalysisModal,
   onFilterSentiment,
 }: SentimentWidgetProps) {
   const isAnalyzed = insights.analyzedRecords > 0;
@@ -56,10 +58,17 @@ export function SentimentWidget({
         <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
           <span className="text-[11px]">Zero hallucinated scores policy</span>
           <button
-            onClick={onNavigateInsights}
-            className="inline-flex items-center gap-1 font-medium text-indigo-600 hover:text-indigo-800 transition-colors text-[11px]"
+            onClick={() => {
+              if (onOpenAnalysisModal) {
+                onOpenAnalysisModal();
+              } else {
+                onNavigateInsights();
+              }
+            }}
+            className="inline-flex items-center gap-1 font-semibold text-indigo-600 hover:text-indigo-800 transition-colors text-[11px] bg-indigo-50 px-2.5 py-1 rounded-md border border-indigo-200/70"
           >
-            <span>Run Analysis Engine</span>
+            <Sparkles className="w-3 h-3 text-indigo-600" />
+            <span>Launch Analysis Pipeline</span>
             <ArrowUpRight className="w-3 h-3" />
           </button>
         </div>

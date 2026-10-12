@@ -81,57 +81,35 @@ You must return a valid JSON array containing one object for every input item ma
 
     const promptText = `Analyze the following customer feedback items:\n\n${JSON.stringify(inputPayload, null, 2)}`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: promptText,
-      config: {
-        systemInstruction,
-        responseMimeType: 'application/json',
-        responseSchema: {
-          type: Type.ARRAY,
-          items: {
-            type: Type.OBJECT,
-            properties: {
-              id: { type: Type.STRING },
-              sentiment: {
-                type: Type.STRING,
-                description: 'Must be Positive, Neutral, Negative, or Mixed',
-              },
-              confidence: {
-                type: Type.NUMBER,
-                description: 'Confidence between 0.0 and 1.0',
-              },
-              explanation: { type: Type.STRING },
-              evidenceQuote: { type: Type.STRING },
-              topicLabel: { type: Type.STRING },
-              topicDescription: { type: Type.STRING },
-              complaintTitle: { type: Type.STRING },
-              complaintExplanation: { type: Type.STRING },
-            },
-            required: [
-              'id',
-              'sentiment',
-              'confidence',
-              'explanation',
-              'evidenceQuote',
-              'topicLabel',
-              'topicDescription',
-            ],
-          },
-        },
-      },
-    });
-
-    const rawText = response.text || '[]';
     let parsed: any[] = [];
     try {
-      parsed = JSON.parse(rawText);
-    } catch (e) {
-      console.error('Failed to parse Gemini model JSON response:', rawText, e);
-      return NextResponse.json(
-        { error: 'Model returned malformed JSON response', details: String(e) },
-        { status: 502 }
-      );
+      const response = await Promise.race([
+        ai.models.generateContent({
+          model: 'gemini-3.5-flash',
+          contents: `${systemInstruction}\n\n${promptText}`,
+        }),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('Gemini API timeout after 15 seconds')), 15000)
+        ),
+      ]);
+
+      const rawText = response.text || '';
+      // Extract JSON array from Markdown code fence or raw array
+      const jsonMatch = rawText.match(/\[\s*\{[\s\S]*\}\s*\]/);
+      if (jsonMatch) {
+        parsed = JSON.parse(jsonMatch[0]);
+      } else {
+        parsed = JSON.parse(rawText);
+      }
+    } catch (aiErr: any) {
+      console.warn('Gemini inference unavailable, transparently applying rule baseline:', aiErr?.message);
+      const fallback = analyzeWithRuleBaseline(items);
+      return NextResponse.json({
+        results: fallback,
+        provider: 'baseline-rules',
+        count: fallback.length,
+        notice: `Fell back to rule baseline: ${aiErr?.message || 'Inference delay'}`,
+      });
     }
 
     const resultMap = new Map<string, any>();

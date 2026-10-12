@@ -5,11 +5,11 @@ export async function GET() {
 
   return NextResponse.json({
     configured: hasKey,
-    defaultModel: 'gemini-3.8-flash',
+    defaultModel: 'gemini-3.5-flash',
     supportedProviders: [
       {
-        id: 'gemini-3.8-flash',
-        name: 'Gemini 3.8 Flash (AI Model)',
+        id: 'gemini-3.5-flash',
+        name: 'Gemini 3.5 Flash (AI Model)',
         description: 'Deep neural sentiment, semantic topic discovery, and evidence-backed complaint synthesis.',
         available: hasKey,
       },

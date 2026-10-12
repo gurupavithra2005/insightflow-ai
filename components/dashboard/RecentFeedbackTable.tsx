@@ -46,14 +46,19 @@ export function RecentFeedbackTable({ records, onInspect, onViewAll }: RecentFee
               <tr>
                 <th className="py-2.5 px-3">Feedback Review</th>
                 <th className="py-2.5 px-3 w-40">Category</th>
-                <th className="py-2.5 px-3 w-32">Recorded Date</th>
+                <th className="py-2.5 px-3 w-36">Recorded Date</th>
                 <th className="py-2.5 px-3 w-28">Sentiment</th>
                 <th className="py-2.5 px-3 w-20 text-right">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {recentRecords.map(record => {
-                const dateDisplay = formatDisplayDate(record.createdAt);
+                const isDemo = record.source === 'demo';
+                const dateDisplay = record.createdAt
+                  ? `${formatDisplayDate(record.createdAt)}${isDemo ? ' (Demo)' : ''}`
+                  : 'Bulk CSV (No date)';
+
+                const a = record.analysis;
 
                 return (
                   <tr key={record.id} className="hover:bg-slate-50/70 transition-colors group">
@@ -65,11 +70,29 @@ export function RecentFeedbackTable({ records, onInspect, onViewAll }: RecentFee
                     <td className="py-2.5 px-3 text-slate-700 font-medium whitespace-nowrap">
                       {record.category}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-500 font-mono text-[11px] whitespace-nowrap">
+                    <td className="py-2.5 px-3 text-slate-500 font-mono text-[11px] whitespace-nowrap" title={isDemo ? 'Synthetic demonstration timestamp' : undefined}>
                       {dateDisplay}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-400 italic text-[11px] whitespace-nowrap">
-                      Unanalyzed (P2)
+                    <td className="py-2.5 px-3 whitespace-nowrap">
+                      {a ? (
+                        <span
+                          className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded ${
+                            a.sentiment === 'Positive'
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              : a.sentiment === 'Negative'
+                              ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                              : a.sentiment === 'Mixed'
+                              ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                              : 'bg-slate-100 text-slate-700 border border-slate-200'
+                          }`}
+                        >
+                          {a.sentiment}
+                        </span>
+                      ) : (
+                        <span className="text-slate-400 italic text-[11px]">
+                          Unanalyzed
+                        </span>
+                      )}
                     </td>
                     <td className="py-2.5 px-3 text-right whitespace-nowrap">
                       <button

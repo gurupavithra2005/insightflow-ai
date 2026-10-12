@@ -34,6 +34,8 @@ interface OverviewViewProps {
   insights: AggregateInsights;
   onOpenImportModal: () => void;
   onOpenAddModal: () => void;
+  onOpenAnalysisModal?: () => void;
+  onLoadBenchmark?: () => void;
   onResetToDemo: () => void;
   onNavigateTab: (tab: 'explorer' | 'insights') => void;
   onInspectRecord: (record: FeedbackRecord) => void;
@@ -48,6 +50,8 @@ export function OverviewView({
   insights,
   onOpenImportModal,
   onOpenAddModal,
+  onOpenAnalysisModal,
+  onLoadBenchmark,
   onResetToDemo,
   onNavigateTab,
   onInspectRecord,
@@ -87,6 +91,17 @@ export function OverviewView({
 
         {/* Primary Header Action Controls */}
         <div className="flex flex-wrap items-center gap-2.5">
+          {metadata.datasetType === 'demo' && onLoadBenchmark && (
+            <button
+              onClick={onLoadBenchmark}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200/90 rounded-lg hover:bg-indigo-100/70 transition-colors shadow-2xs"
+              title="Load the authentic 7,000-record Build Battle 2026 Customer Feedback dataset"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+              <span>Load 7,000 Source Dataset</span>
+            </button>
+          )}
+
           {metadata.datasetType === 'imported' && (
             <button
               onClick={onResetToDemo}
@@ -138,6 +153,15 @@ export function OverviewView({
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
+          {metadata.datasetType === 'demo' && onLoadBenchmark && (
+            <button
+              onClick={onLoadBenchmark}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:text-emerald-900 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md transition-colors"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Load 7,000 Dataset</span>
+            </button>
+          )}
           <button
             onClick={() => onNavigateTab('explorer')}
             className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
@@ -181,6 +205,7 @@ export function OverviewView({
         <SentimentWidget
           insights={insights}
           onNavigateInsights={() => onNavigateTab('insights')}
+          onOpenAnalysisModal={onOpenAnalysisModal}
           onFilterSentiment={s => {
             onFilterBySentiment(s);
             onNavigateTab('explorer');

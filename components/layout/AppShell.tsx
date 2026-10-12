@@ -51,6 +51,12 @@ export function AppShell() {
     metrics,
     insights,
     lastRun,
+    issues,
+    recommendations,
+    notes,
+    statusHistory,
+    categoryConfig,
+    thresholds,
     addFeedback,
     importRecords,
     resetToDemo,
@@ -58,6 +64,18 @@ export function AppShell() {
     updateAnalysis,
     clearAnalysis,
     exportCsv,
+    updateIssueStatus,
+    updateIssueDetails,
+    addIssueNote,
+    deleteIssueNote,
+    updateRecommendationStatus,
+    replaceRecommendation,
+    updateCategoryConfig,
+    updatePriorityThresholds,
+    recalculateIssues,
+    reports,
+    addReport,
+    deleteReport,
   } = useFeedbackWorkspace();
 
   // Listen for hashchange events and sync initial hash on mount
@@ -200,6 +218,8 @@ export function AppShell() {
           activeTab={activeTab}
           onTabChange={handleTabChange}
           totalRecordsCount={records.length}
+          issuesCount={issues.length}
+          recommendationsCount={recommendations.length}
         />
       </div>
 
@@ -227,6 +247,8 @@ export function AppShell() {
                 onTabChange={handleTabChange}
                 onCloseMobile={() => setMobileMenuOpen(false)}
                 totalRecordsCount={records.length}
+                issuesCount={issues.length}
+                recommendationsCount={recommendations.length}
               />
             </div>
           </div>
@@ -254,6 +276,8 @@ export function AppShell() {
               insights={insights}
               onOpenImportModal={() => setIsImportModalOpen(true)}
               onOpenAddModal={() => setIsAddModalOpen(true)}
+              onOpenAnalysisModal={() => setIsAnalysisModalOpen(true)}
+              onLoadBenchmark={handleLoadBenchmark}
               onResetToDemo={handleResetToDemo}
               onNavigateTab={tab => handleTabChange(tab)}
               onInspectRecord={rec => setInspectingRecord(rec)}
@@ -298,6 +322,45 @@ export function AppShell() {
               metrics={metrics}
               records={records}
               insights={insights}
+              issues={issues}
+              recommendations={recommendations}
+              notes={notes}
+              statusHistory={statusHistory}
+              categoryConfig={categoryConfig}
+              thresholds={thresholds}
+              onUpdateStatus={(issueId, status, actor, reason) => {
+                updateIssueStatus(issueId, status, actor, reason);
+                addToast('info', 'Issue Status Updated', `Status changed to ${status}. Audit trail recorded.`);
+              }}
+              onUpdateDetails={(issueId, updates) => {
+                updateIssueDetails(issueId, updates);
+                addToast('success', 'Issue Details Updated', 'Saved owner and target dates.');
+              }}
+              onAddNote={(issueId, noteText, author) => {
+                addIssueNote(issueId, noteText, author);
+                addToast('success', 'Investigation Note Saved', 'Appended to team audit log.');
+              }}
+              onDeleteNote={(noteId) => {
+                deleteIssueNote(noteId);
+                addToast('info', 'Note Removed');
+              }}
+              onUpdateRecommendationStatus={(recId, status, userNotes) => {
+                updateRecommendationStatus(recId, status, userNotes);
+                addToast('success', 'Recommendation Updated', `Marked recommendation as ${status}.`);
+              }}
+              onReplaceRecommendation={replaceRecommendation}
+              onUpdateCategoryConfig={(cfg) => {
+                updateCategoryConfig(cfg);
+                addToast('success', 'Scoring Weights Updated', 'Priority scores recalculated.');
+              }}
+              onUpdatePriorityThresholds={(th) => {
+                updatePriorityThresholds(th);
+                addToast('success', 'Priority Bands Updated', 'Priority classifications updated.');
+              }}
+              onRecalculateIssues={() => {
+                recalculateIssues();
+                addToast('success', 'Scores Recalculated', 'Synchronized priority rankings against dataset.');
+              }}
               onInspectText={handleInspectByText}
               onNavigateTab={tab => handleTabChange(tab)}
             />
@@ -307,7 +370,30 @@ export function AppShell() {
             <IssuesView
               metrics={metrics}
               records={records}
+              issues={issues}
+              notes={notes}
+              statusHistory={statusHistory}
+              onUpdateStatus={(issueId, status, actor, reason) => {
+                updateIssueStatus(issueId, status, actor, reason);
+                addToast('info', 'Issue Status Updated', `Status changed to ${status}.`);
+              }}
+              onUpdateDetails={(issueId, updates) => {
+                updateIssueDetails(issueId, updates);
+                addToast('success', 'Issue Details Updated');
+              }}
+              onAddNote={(issueId, noteText, author) => {
+                addIssueNote(issueId, noteText, author);
+                addToast('success', 'Investigation Note Saved');
+              }}
+              onDeleteNote={(noteId) => {
+                deleteIssueNote(noteId);
+                addToast('info', 'Note Removed');
+              }}
               onInspectText={handleInspectByText}
+              onRecalculateIssues={() => {
+                recalculateIssues();
+                addToast('success', 'Issues Synchronized');
+              }}
             />
           )}
 
@@ -317,7 +403,21 @@ export function AppShell() {
               records={records}
               metadata={metadata}
               insights={insights}
+              issues={issues}
+              recommendations={recommendations}
+              notes={notes}
+              statusHistory={statusHistory}
+              reports={reports}
+              onSaveReport={(rep) => {
+                addReport(rep);
+                addToast('success', 'Report Generated Successfully', `Saved ${rep.title} to report history.`);
+              }}
+              onDeleteReport={(id) => {
+                deleteReport(id);
+                addToast('info', 'Report Removed from History');
+              }}
               onExportCsv={exportCsv}
+              onInspectText={handleInspectByText}
             />
           )}
 
@@ -326,6 +426,8 @@ export function AppShell() {
               metadata={metadata}
               metrics={metrics}
               onOpenImportModal={() => setIsImportModalOpen(true)}
+              onLoadBenchmark={loadBenchmark}
+              onNotify={addToast}
             />
           )}
         </main>

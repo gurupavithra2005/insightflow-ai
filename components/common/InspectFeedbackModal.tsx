@@ -26,8 +26,9 @@ export function InspectFeedbackModal({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const isDemo = record.source === 'demo';
   const formattedDate = record.createdAt
-    ? formatDisplayDateTime(record.createdAt)
+    ? `${formatDisplayDateTime(record.createdAt)}${isDemo ? ' (Synthetic Demo Entry)' : ''}`
     : 'Not provided in dataset (Bulk CSV imported)';
 
   const a = record.analysis;

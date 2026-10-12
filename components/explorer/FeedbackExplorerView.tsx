@@ -402,7 +402,10 @@ export function FeedbackExplorerView({
               <tbody className="divide-y divide-slate-100">
                 {paginatedRecords.map((record, index) => {
                   const globalIndex = (safeCurrentPage - 1) * pageSize + index + 1;
-                  const dateStr = formatDisplayDate(record.createdAt);
+                  const isDemo = record.source === 'demo';
+                  const dateStr = record.createdAt
+                    ? `${formatDisplayDate(record.createdAt)}${isDemo ? ' (Demo)' : ''}`
+                    : 'Bulk CSV (No date)';
 
                   const a = record.analysis;
 
