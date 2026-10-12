@@ -68,9 +68,9 @@ export function OverviewView({
   return (
     <div className="space-y-6">
       {/* Overview Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-2 border-b border-slate-200/60">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/60">
         <div>
-          <div className="flex items-center gap-2.5 mb-1">
+          <div className="flex flex-wrap items-center gap-2 mb-1">
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
               Welcome to InsightFlow
             </h1>
@@ -90,11 +90,11 @@ export function OverviewView({
         </div>
 
         {/* Primary Header Action Controls */}
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2 pt-1 sm:pt-0">
           {metadata.datasetType === 'demo' && onLoadBenchmark && (
             <button
               onClick={onLoadBenchmark}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200/90 rounded-lg hover:bg-indigo-100/70 transition-colors shadow-2xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg hover:bg-indigo-100 transition-colors shadow-2xs"
               title="Load the authentic 7,000-record Build Battle 2026 Customer Feedback dataset"
             >
               <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
@@ -105,7 +105,7 @@ export function OverviewView({
           {metadata.datasetType === 'imported' && (
             <button
               onClick={onResetToDemo}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors shadow-2xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors shadow-2xs"
               title="Restore original sample demo records"
             >
               <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
@@ -115,7 +115,7 @@ export function OverviewView({
 
           <button
             onClick={onOpenImportModal}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors shadow-2xs"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors shadow-2xs"
           >
             <UploadCloud className="w-4 h-4 text-indigo-600" />
             <span>Import CSV</span>
@@ -123,7 +123,7 @@ export function OverviewView({
 
           <button
             onClick={onOpenAddModal}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-2xs transition-colors"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-2xs transition-colors"
           >
             <Plus className="w-4 h-4" />
             <span>Add Feedback</span>
@@ -132,39 +132,32 @@ export function OverviewView({
       </div>
 
       {/* Dataset Status Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-white border border-slate-200/80 rounded-xl text-xs text-slate-600 shadow-2xs">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-slate-100 rounded-lg text-slate-700 shrink-0">
+      <div className="p-3.5 bg-white border border-slate-200/80 rounded-xl text-xs text-slate-600 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex items-start sm:items-center gap-3 min-w-0">
+          <div className="p-2 bg-slate-100 rounded-lg text-slate-700 shrink-0 mt-0.5 sm:mt-0">
             <FileSpreadsheet className="w-4 h-4" />
           </div>
-          <div>
-            <div className="font-semibold text-slate-900 flex items-center gap-2">
-              <span>Active Source: {metadata.datasetName}</span>
-              <span className="font-mono text-slate-400 font-normal">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+              <span className="font-semibold text-slate-900 truncate">
+                Active Source: {metadata.datasetName}
+              </span>
+              <span className="font-mono text-slate-500 text-[11px] whitespace-nowrap">
                 ({metrics.totalFeedback.toLocaleString('en-US')} records loaded)
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 mt-0.5">
+            <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
               {metadata.datasetType === 'demo'
-                ? 'Displaying curated synthetic entries across all 4 categories for immediate evaluation.'
-                : `Imported file with real-time recalculation across 4 business categories.`}
+                ? 'Curated synthetic demonstration entries across all 4 categories for immediate evaluation.'
+                : 'Imported customer feedback with real-time recalculation across 4 business categories.'}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
-          {metadata.datasetType === 'demo' && onLoadBenchmark && (
-            <button
-              onClick={onLoadBenchmark}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:text-emerald-900 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md transition-colors"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Load 7,000 Dataset</span>
-            </button>
-          )}
+        <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
           <button
             onClick={() => onNavigateTab('explorer')}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors py-1"
           >
             <span>Browse Records</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -173,7 +166,12 @@ export function OverviewView({
       </div>
 
       {/* Workflow Progress: Collect -> Organize -> Analyze -> Prioritize -> Act */}
-      <WorkflowProgress currentStage={insights.analyzedRecords > 0 ? 'analyze' : 'organize'} />
+      <WorkflowProgress
+        currentStage={insights.analyzedRecords > 0 ? 'analyze' : 'organize'}
+        recordsCount={records.length}
+        analyzedCount={insights.analyzedRecords}
+        uniqueCount={metrics.uniqueFeedbackCount}
+      />
 
       {/* Primary KPI Metric Cards */}
       <MetricCards metrics={metrics} />

@@ -277,7 +277,7 @@ export function AppShell() {
               onOpenImportModal={() => setIsImportModalOpen(true)}
               onOpenAddModal={() => setIsAddModalOpen(true)}
               onOpenAnalysisModal={() => setIsAnalysisModalOpen(true)}
-              onLoadBenchmark={handleLoadBenchmark}
+              onLoadBenchmark={handleLoadBenchmarkQuick}
               onResetToDemo={handleResetToDemo}
               onNavigateTab={tab => handleTabChange(tab)}
               onInspectRecord={rec => setInspectingRecord(rec)}

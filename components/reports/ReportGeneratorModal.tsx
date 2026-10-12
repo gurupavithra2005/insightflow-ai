@@ -21,6 +21,7 @@ import {
   filterRecordsForReport,
   filterIssuesForReport,
   downloadExecutivePrintableReport,
+  downloadExecutivePdfReport,
   exportReportToJson,
   exportDomainToCsv,
 } from '../../services/reportService';
@@ -126,7 +127,7 @@ export function ReportGeneratorModal({
 
     // Download / Open according to format
     if (format === 'pdf') {
-      downloadExecutivePrintableReport(snapshot, matchingRecords, insights, matchingIssues, matchingRecs);
+      downloadExecutivePdfReport(snapshot, matchingRecords, insights, matchingIssues, matchingRecs);
     } else if (format === 'json') {
       exportReportToJson(snapshot, matchingRecords, insights, matchingIssues, matchingRecs);
     } else if (format === 'csv') {

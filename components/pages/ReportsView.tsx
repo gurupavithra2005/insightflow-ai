@@ -22,6 +22,7 @@ import { ReportGeneratorModal } from '../reports/ReportGeneratorModal';
 import {
   exportDomainToCsv,
   downloadExecutivePrintableReport,
+  downloadExecutivePdfReport,
   exportReportToJson,
 } from '../../services/reportService';
 import {
@@ -108,7 +109,7 @@ export function ReportsView({
   const approvedRecs = recommendations.filter(r => r.status === 'Approved').length;
 
   const handleDownloadHistoricalPdf = (rep: ReportRecord) => {
-    downloadExecutivePrintableReport(rep, records, insights, issues, recommendations);
+    downloadExecutivePdfReport(rep, records, insights, issues, recommendations);
   };
 
   const handleDownloadHistoricalJson = (rep: ReportRecord) => {

@@ -266,8 +266,18 @@ export function DataSourcesView({
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
               Data Sources & Adaption Integration
             </h1>
-            <span className="text-[11px] font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-full">
-              Phase 6 Quality & Security Verified
+            <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
+              apiStatus.status === 'CONNECTED'
+                ? 'text-emerald-700 bg-emerald-50 border-emerald-200'
+                : apiStatus.status === 'BLOCKED'
+                ? 'text-amber-800 bg-amber-50 border-amber-200'
+                : 'text-indigo-700 bg-indigo-50 border-indigo-200'
+            }`}>
+              {apiStatus.status === 'CONNECTED'
+                ? 'Adaption: Connected & Verified'
+                : apiStatus.status === 'BLOCKED'
+                ? 'Adaption: Implemented (API Key Required)'
+                : 'Adaption: Checking Status...'}
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">

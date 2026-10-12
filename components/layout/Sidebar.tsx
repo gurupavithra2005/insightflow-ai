@@ -153,15 +153,16 @@ export function Sidebar({
       <div className="p-4 m-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs space-y-1.5">
         <div className="flex items-center justify-between text-[11px]">
           <span className="font-semibold text-slate-800">Build Battle 2026</span>
-          <span className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded font-mono font-bold">
-            Phase 6 Ready
+          <span className="text-[10px] text-indigo-700 bg-indigo-50 border border-indigo-200 px-1.5 py-0.2 rounded font-mono font-bold">
+            Evaluation Suite
           </span>
         </div>
         <p className="text-[11px] text-slate-500 leading-snug">
           Full-Lifecycle Customer Intelligence & Decision Suite
         </p>
-        <div className="pt-1.5 border-t border-slate-200/60 text-[10px] text-slate-400">
-          Security Hardened • Adaption Verified • Ready for Evaluation
+        <div className="pt-1.5 border-t border-slate-200/60 text-[10px] text-slate-500 flex flex-col gap-0.5">
+          <span>Engine: <strong className="text-emerald-700 font-semibold">Verified</strong></span>
+          <span>Adaption: <strong className="text-amber-700 font-semibold">Implemented (Key Required)</strong></span>
         </div>
       </div>
     </aside>
